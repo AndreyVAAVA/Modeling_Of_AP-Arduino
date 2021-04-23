@@ -2,13 +2,14 @@
 
 HX711 scale;                          
 
-float calibration_factor = -3.7;          // калибровка!
+float calibration_factor = -26.5;          // калибровка!
 float units;
 float ounces;
 
 void setup() {
   Serial.begin(9600); 
-  scale.begin(A1, A0);
+//  scale.begin(A1, A0);
+  scale.begin(3, 2);
   scale.set_scale();
   scale.tare();                              //Сбрасываем на 0
   scale.set_scale(calibration_factor);       //Применяем калибровку
@@ -28,8 +29,9 @@ void loop() {
     for(int i = 0;i < 10; i ++) units =+ scale.get_units(), 10;   // усредняем показания считав 10 раз 
     units / 10;                                                   // делим на 10
      
-    ounces = units * 0.035274;                                    // переводим унции в граммы              
-    Serial.print(ounces);                                          // отправляем в монитор порта
+    ounces = units * 0.035274;                                    // переводим унции в граммы           
+//    ounces = scale.get_units() * 0.035274;   
+    Serial.print(ounces*-1);                                          // отправляем в монитор порта
   //  Serial.print(" grams");  
   //  Serial.println(); 
   }
